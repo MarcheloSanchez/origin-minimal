@@ -1,0 +1,15 @@
+# AIOS Autonomy Ladder — fix-class registry + state
+# Tiers: T0 silent-deterministic · T1 apply+ledger-audit · T2 propose+gate · T3 human-only
+# Promotion: T2→T1 needs accepted >= 20 AND reverts == 0. Demotion: 1 revert = down one rung.
+# Counters are updated at quarterly review from ledger rows; do not hand-tune between reviews.
+# An unregistered fix-class is T3 by default (ai-rules Phase-1 rule 1).
+
+classes:
+  desloppify-yaml-cleanup:      { tier: T0, owner: "AIOS/scripts/vault-desloppify.sh", accepted: 0, reverts: 0 }
+  quality-tier1-deterministic:  { tier: T0, owner: "/vault-quality-pass Tier 1", accepted: 0, reverts: 0 }
+  capture-classification:       { tier: T2, owner: "capture-processor", accepted: 0, reverts: 0 }
+  note-fix-yaml:                { tier: T2, owner: "note-fixer / /vault-quality-pass Tier 2", accepted: 0, reverts: 0 }
+  note-fix-body:                { tier: T2, owner: "note-fixer / /vault-quality-pass Tier 2", accepted: 0, reverts: 0 }
+  link-recommendation:          { tier: T2, owner: "link-recommender", accepted: 0, reverts: 0 }
+  blueprint-execution:          { tier: T2, owner: "builder subagents", accepted: 0, reverts: 0 }
+  # everything else (schema changes, deletions, renames, archive moves): T3 by default

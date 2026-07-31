@@ -1,0 +1,160 @@
+# AIOS Schema Contract v1 (seeded 2026-07-14 from 99-System/Config/yaml-meta-config.json + CIS)
+# Declarative source-of-record. RUNTIME still reads yaml-meta-config.json until
+# generation lands (phase 5) — keep the two in sync via quarterly contract review.
+# Extended enums (30+ fields) remain owned by 99-System/CIS/CIS_*.md until migrated here.
+
+version: 1
+runtime_source: 99-System/Config/yaml-meta-config.json
+
+field_order:      # copy of order.default — do not reorder
+  - up
+  - in
+  - title
+  - aliases
+  - type
+  - fileClass
+  - cssclass
+  - tags
+  - status
+  - maturity
+  - priority
+  - processing_priority
+  - completeness
+  - coverage_areas
+  - action_required
+  - created
+  - modified
+  - start
+  - due
+  - end
+  - last_review
+  - review_frequency
+  - estimated_effort
+  - completion_percentage
+  - next_actions
+  - energy
+  - mood
+  - sleep
+  - focus_area
+  - wins_today
+  - wins_week
+  - theme
+  - context
+  - blockers
+  - outcome
+  - capture_method
+  - linked_notes_count
+  - confidence_level
+  - evidence_quality
+  - domain
+  - read_status
+  - rating_type
+  - rating
+  - source_author
+  - source_date
+  - source_type
+  - source_url
+  - participants
+  - location
+  - meeting_type
+  - meeting_date
+  - duration
+  - action_items
+  - audience
+  - difficulty
+  - prompt_category
+  - prompt_type
+  - model_defaults
+  - intent
+  - pattern
+  - summary
+  - version
+  - id
+  - context_packs
+  - prompt_subcategory
+  - eval_score
+  - last_run
+  - language
+  - owner
+  - source
+  - related
+  - see_also
+  - related_concepts
+  - related_ideas
+  - relationship
+  - contact_method
+  - last_interaction
+  - areas_of_expertise
+  - role
+  - org
+  - company
+  - email
+  - phone
+  - website
+  - twitter
+  - github
+  - linkedin
+  - tool_category
+  - mastery_level
+  - usage_frequency
+  - cost
+  - platform
+
+renames:          # copy of rules.rename
+  seeAlso: see_also
+  relatedNotes: related
+  Category: prompt_category
+  Type: prompt_type
+  Audience: audience
+  Difficulty: difficulty
+  Source: source
+
+required:         # copy of rules.ensureRequired
+  - title
+  - type
+  - status
+  - created
+
+enums:            # the four locked enums — values copied from CIS files, emoji included
+  status:
+    - 📥inbox
+    - 🔄active
+    - ⏳waiting
+    - ✅completed
+    - 📦archived
+    - ⏸️paused
+    - ❌cancelled
+    - ⚠️blocked
+  maturity:
+    - 📤seed
+    - 🌱seedling
+    - 🪴sapling
+    - 🌲evergreen
+    - 🍓fruit
+  type:
+    - atomic
+    - effort
+    - source
+    - moc
+    - meeting
+    - prompt
+    - person
+    - place
+    - tool
+    - area
+    - system
+    - dashboard
+    - about
+    - guide
+    - tutorial
+    - daily
+    - weekly
+    - monthly
+    - quarterly
+    - yearly
+    - challenge
+    - archive
+  priority:
+    - high
+    - medium
+    - low
