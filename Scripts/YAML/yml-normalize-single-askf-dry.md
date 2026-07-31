@@ -1,0 +1,1 @@
+<%* await tp.user.yaml_orchestrator({ mode: "normalize", askFolder: true, dryRun: true }) %>
