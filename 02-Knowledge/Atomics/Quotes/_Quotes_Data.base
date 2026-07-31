@@ -1,0 +1,45 @@
+filters:
+  and:
+    - file.folder.contains("100-Atomics/Quotes")
+    - '!file.name.startswith("+")'
+    - '!file.name.contains("Template")'
+    - file.name != "Quotes"
+formulas:
+  Days Stable: (today() - file.mtime).days.round()
+properties:
+  file.name:
+    displayName: "💬 Quote"
+  maturity:
+    displayName: "🌱 Maturity"
+  source_inspiration:
+    displayName: "📚 Source"
+  tags:
+    displayName: "🔖 Tags"
+  related:
+    displayName: "🔗 Related"
+  formula.Days Stable:
+    displayName: "📅 Days Stable"
+views:
+  - type: table
+    name: "📋 All Quotes"
+    order:
+      - file.name
+      - maturity
+      - source_inspiration
+      - tags
+      - related
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 320
+      maturity: 120
+      source_inspiration: 180
+  - type: cards
+    name: "🃏 Quote Cards"
+    order:
+      - file.name
+      - source_inspiration
+      - maturity
+      - tags
+    limit: 100

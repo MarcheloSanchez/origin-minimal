@@ -1,0 +1,56 @@
+filters:
+  and:
+    - file.folder.contains("100-Atomics/Statements")
+    - '!file.name.startswith("+")'
+    - '!file.name.contains("Template")'
+    - file.name != "Statements"
+formulas:
+  Outlinks: file.links.length
+  Backlinks: file.backlinks.length
+  Days Stable: (today() - file.mtime).days.round()
+properties:
+  file.name:
+    displayName: "📝 Statement"
+  maturity:
+    displayName: "🌱 Maturity"
+  confidence_level:
+    displayName: "🎯 Confidence"
+  evidence_quality:
+    displayName: "🔬 Evidence"
+  tags:
+    displayName: "🔖 Tags"
+  formula.Outlinks:
+    displayName: "➡️ Out"
+  formula.Backlinks:
+    displayName: "⬅️ Back"
+  formula.Days Stable:
+    displayName: "📅 Days Stable"
+views:
+  - type: table
+    name: "📋 All Statements"
+    order:
+      - file.name
+      - maturity
+      - confidence_level
+      - evidence_quality
+      - formula.Outlinks
+      - formula.Backlinks
+      - tags
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 280
+      maturity: 120
+      confidence_level: 110
+      evidence_quality: 100
+      formula.Outlinks: 70
+      formula.Backlinks: 70
+  - type: cards
+    name: "🃏 Statement Cards"
+    order:
+      - file.name
+      - maturity
+      - confidence_level
+      - evidence_quality
+    limit: 100

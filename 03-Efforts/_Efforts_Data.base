@@ -1,0 +1,243 @@
+filters:
+  and:
+    - file.folder.startsWith("03-Efforts")
+    - '!file.name.startswith("+")'
+    - '!file.name.startswith("03")'
+    - '!file.name.contains("Template")'
+formulas:
+  Days Stale: (today() - file.mtime).days.round() + " days ago"
+  Due In: (note["due"] - today()).days.round() + " days"
+  Linked Atoms: file.links.filter(value.asFile().properties.type == "atomic").length
+  Linked Sources: file.links.filter(value.asFile().properties.type == "source").length
+properties:
+  file.name:
+    displayName: 🚀 Effort
+  rank:
+    displayName: 🔺 Rank
+  file.folder:
+    displayName: 📂 Folder
+  status:
+    displayName: ⚡ Status
+  priority:
+    displayName: 🔺 Priority
+  completion_percentage:
+    displayName: 📊 Progress %
+  energy:
+    displayName: ⚡ Energy
+  context:
+    displayName: 🌐 Context
+  time_required:
+    displayName: ⏱️ Time Req
+  next_actions:
+    displayName: ▶️ Next Actions
+  action_required:
+    displayName: 🚨 Action Req
+  formula.Days Stale:
+    displayName: 💤 Last Touch
+  formula.Due In:
+    displayName: ⏰ Due In
+  formula.Linked Atoms:
+    displayName: 💡 Atoms
+  formula.Linked Sources:
+    displayName: 📚 Sources
+views:
+  - type: table
+    name: 📋 All Efforts
+    order:
+      - file.name
+      - rank
+      - file.folder
+      - status
+      - completion_percentage
+      - formula.Due In
+      - formula.Days Stale
+      - formula.Linked Atoms
+      - formula.Linked Sources
+    sort:
+      - property: file.folder
+        direction: ASC
+      - property: rank
+        direction: DESC
+    columnSize:
+      file.name: 280
+      file.folder: 180
+      formula.Due In: 90
+      formula.Days Stale: 110
+      formula.Linked Atoms: 87
+      formula.Linked Sources: 70
+  - type: cards
+    name: 🃏 Efforts Cards
+    order:
+      - file.name
+      - status
+      - priority
+      - completion_percentage
+      - formula.Due In
+    limit: 100
+  - type: table
+    name: 🟢 Active Projects
+    filters:
+      and:
+        - file.inFolder("03-Efforts/Active")
+    order:
+      - file.name
+      - rank
+      - status
+      - completion_percentage
+      - energy
+      - formula.Due In
+      - formula.Days Stale
+      - formula.Linked Atoms
+      - formula.Linked Sources
+      - next_actions
+    sort:
+      - property: rank
+        direction: DESC
+    columnSize:
+      file.name: 260
+      rank: 70
+      completion_percentage: 100
+      next_actions: 220
+  - type: table
+    name: 🫕 Simmering
+    filters:
+      and:
+        - file.inFolder("03-Efforts/Paused")
+    order:
+      - file.name
+      - rank
+      - up
+      - related
+      - file.links
+    sort:
+      - property: rank
+        direction: DESC
+    columnSize:
+      file.name: 280
+  - type: table
+    name: 😴 Sleeping
+    filters:
+      and:
+        - file.inFolder("03-Efforts/Waiting")
+    order:
+      - file.name
+      - rank
+      - up
+      - related
+      - file.links
+    sort:
+      - property: rank
+        direction: DESC
+    columnSize:
+      file.name: 280
+  - type: table
+    name: 🕐 Recently Edited
+    order:
+      - file.name
+      - rank
+      - formula.Days Stale
+      - formula.Due In
+      - formula.Linked Atoms
+      - formula.Linked Sources
+    sort:
+      - property: file.mtime
+        direction: DESC
+    columnSize:
+      file.name: 300
+  - type: table
+    name: 🚨 Needs Attention
+    filters:
+      and:
+        - status == "🔄active"
+        - action_required == true
+    order:
+      - file.name
+      - formula.Days Stale
+      - formula.Due In
+      - next_actions
+      - priority
+      - energy
+      - context
+    sort:
+      - property: file.mtime
+        direction: ASC
+    columnSize:
+      file.name: 240
+      next_actions: 220
+  - type: table
+    name: 🔴 Overdue
+    filters:
+      and:
+        - status == "🔄active"
+        - due < today()
+    order:
+      - file.name
+      - formula.Due In
+      - priority
+      - next_actions
+      - formula.Days Stale
+    sort:
+      - property: due
+        direction: ASC
+    columnSize:
+      file.name: 260
+      next_actions: 200
+  - type: table
+    name: ⚡ Quick Wins
+    filters:
+      and:
+        - status == "🔄active"
+    order:
+      - file.name
+      - time_required
+      - energy
+      - context
+      - priority
+      - next_actions
+    sort:
+      - property: time_required
+        direction: ASC
+      - property: energy
+        direction: ASC
+    columnSize:
+      file.name: 240
+      time_required: 100
+      energy: 80
+      context: 100
+      next_actions: 200
+  - type: table
+    name: 🏝️ Orphan Efforts
+    order:
+      - file.name
+      - status
+      - formula.Linked Atoms
+      - formula.Linked Sources
+      - formula.Days Stale
+      - next_actions
+    sort:
+      - property: formula.Linked Atoms
+        direction: ASC
+      - property: formula.Linked Sources
+        direction: ASC
+    columnSize:
+      file.name: 280
+      formula.Linked Atoms: 80
+      formula.Linked Sources: 80
+      next_actions: 200
+  - type: table
+    name: 📊 By Progress
+    order:
+      - file.name
+      - completion_percentage
+      - status
+      - priority
+      - formula.Due In
+      - formula.Days Stale
+    sort:
+      - property: completion_percentage
+        direction: ASC
+    columnSize:
+      file.name: 280
+      completion_percentage: 110
+      formula.Due In: 90
+      formula.Days Stale: 110

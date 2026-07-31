@@ -1,0 +1,110 @@
+filters:
+  and:
+    - file.folder.contains("04-Sources/Meetings")
+    - '!file.name.startswith("+")'
+    - '!file.name.contains("Template")'
+formulas:
+  Days Ago: (today()-note["meeting_date"]).days.round()+" days ago"
+properties:
+  file.name:
+    displayName: "📅 Meeting"
+  meeting_date:
+    displayName: "📆 Date"
+  meeting_type:
+    displayName: "🏷️ Type"
+  participants:
+    displayName: "👥 Participants"
+  location:
+    displayName: "📍 Location"
+  duration:
+    displayName: "⏱️ Duration"
+  action_items:
+    displayName: "✅ Action Items"
+  decisions_made:
+    displayName: "🔨 Decisions"
+  formula.Days Ago:
+    displayName: "⏳ How Long Ago"
+views:
+  - type: table
+    name: "📋 All Meetings"
+    order:
+      - file.name
+      - meeting_date
+      - formula.Days Ago
+      - meeting_type
+      - participants
+      - location
+      - duration
+      - action_items
+    sort:
+      - property: meeting_date
+        direction: DESC
+    columnSize:
+      file.name: 260
+      meeting_date: 110
+      formula.Days Ago: 110
+      meeting_type: 100
+      participants: 200
+      action_items: 220
+  - type: cards
+    name: "🃏 Meetings Cards"
+    order:
+      - file.name
+      - meeting_date
+      - meeting_type
+      - participants
+      - location
+    limit: 50
+  - type: table
+    name: "👤 My Meetings"
+    filters:
+      and:
+        - list(participants).contains(this)
+    order:
+      - meeting_date
+      - formula.Days Ago
+      - file.name
+      - meeting_type
+      - location
+    sort:
+      - property: meeting_date
+        direction: DESC
+    columnSize:
+      file.name: 260
+      meeting_date: 110
+  - type: table
+    name: "📅 Meetings on This Day"
+    filters:
+      and:
+        - 'note["meeting_date"] == this.file.basename'
+    order:
+      - file.name
+      - meeting_date
+      - formula.Days Ago
+      - meeting_type
+      - participants
+      - location
+      - action_items
+    sort:
+      - property: meeting_date
+        direction: ASC
+    columnSize:
+      file.name: 260
+      participants: 200
+      action_items: 200
+  - type: table
+    name: "✅ Action Items Pending"
+    order:
+      - file.name
+      - meeting_date
+      - formula.Days Ago
+      - action_items
+      - decisions_made
+      - participants
+    sort:
+      - property: meeting_date
+        direction: DESC
+    columnSize:
+      file.name: 240
+      action_items: 260
+      decisions_made: 200

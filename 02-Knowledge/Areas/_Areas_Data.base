@@ -1,0 +1,94 @@
+filters:
+  and:
+    - file.folder.contains("Areas")
+    - '!file.name.startsWith("+")'
+    - '!file.name.startsWith("_")'
+    - '!file.name.contains("Template")'
+formulas:
+  Days Since Last Review: if(last_review, (today() - last_review).days.round(), (today() - file.mtime).days.round())
+properties:
+  file.name:
+    displayName: 📌 Area
+  status:
+    displayName: ⚡ Status
+  maturity:
+    displayName: 🌱 Maturity
+  priority:
+    displayName: 🔺 Priority
+  last_review:
+    displayName: 📅 Last Review
+  review_frequency:
+    displayName: 🔄 Review Freq
+  formula.Days Since Last Review:
+    displayName: 📅 Days Since Review
+views:
+  - type: table
+    name: 📋 All Areas
+    order:
+      - file.name
+      - status
+      - maturity
+      - priority
+      - formula.Days Since Last Review
+      - review_frequency
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 260
+      status: 100
+      formula.Days Since Last Review: 130
+  - type: cards
+    name: 🃏 Areas Cards
+    order:
+      - file.name
+      - status
+      - maturity
+      - priority
+    limit: 50
+  - type: table
+    name: ⚠️ Needs Review
+    filters:
+      and:
+        - status == "🔄active"
+        - formula.Days Since Last Review > 30
+    order:
+      - file.name
+      - priority
+      - formula.Days Since Last Review
+      - review_frequency
+    sort:
+      - property: formula.Days Since Last Review
+        direction: DESC
+    columnSize:
+      file.name: 280
+      formula.Days Since Last Review: 130
+  - type: table
+    name: ✅ Active Areas
+    filters:
+      and:
+        - status == "🔄active"
+    order:
+      - file.name
+      - maturity
+      - priority
+      - formula.Days Since Last Review
+    sort:
+      - property: priority
+        direction: DESC
+    columnSize:
+      file.name: 280
+  - type: table
+    name: 📅 By Last Review
+    order:
+      - file.name
+      - last_review
+      - status
+      - formula.Days Since Last Review
+    sort:
+      - property: formula.Days Since Last Review
+        direction: DESC
+    columnSize:
+      file.name: 260
+      last_review: 140
+      formula.Days Since Last Review: 130

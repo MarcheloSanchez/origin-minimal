@@ -1,0 +1,156 @@
+filters:
+  and:
+    - file.folder.contains("04-Sources")
+    - '!file.name.startswith("+")'
+    - '!file.name.startswith("04")'
+    - '!file.name.startswith("_")'
+    - '!file.name.contains("Template")'
+formulas:
+  Notes Extracted: file.links.filter(value.asFile().properties.type == "atomic").length
+  Days Since Started: (today() - file.ctime).days.round() + " days"
+  Days Stale: (today() - file.mtime).days.round() + " days ago"
+properties:
+  file.name:
+    displayName: 📚 Source
+  type:
+    displayName: 🏷️ Type
+  status:
+    displayName: ⚡ Status
+  read_status:
+    displayName: 📖 Read Status
+  source_type:
+    displayName: 📂 Source Type
+  source_author:
+    displayName: ✍️ Author
+  source_date:
+    displayName: 📅 Published
+  rating_type:
+    displayName: ⭐ Rating
+  key_insights_count:
+    displayName: 💡 Insights
+  file.tags:
+    displayName: 🔖 Tags
+  file.mtime:
+    displayName: ✏️ Modified
+  file.ctime:
+    displayName: 🕐 Added
+  formula.Notes Extracted:
+    displayName: ⛏️ Atomics
+  formula.Days Since Started:
+    displayName: ⏳ Age
+  formula.Days Stale:
+    displayName: 💤 Last Touch
+views:
+  - type: table
+    name: 📋 All Sources
+    order:
+      - file.name
+      - source_type
+      - status
+      - read_status
+      - source_author
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+    limit: 50
+    columnSize:
+      file.name: 280
+      source_type: 110
+      status: 110
+      read_status: 110
+      source_author: 150
+  - type: table
+    name: 🕐 Recently Edited
+    order:
+      - file.name
+      - source_type
+      - status
+      - read_status
+      - formula.Days Stale
+      - formula.Notes Extracted
+    sort:
+      - property: file.mtime
+        direction: DESC
+    columnSize:
+      file.name: 280
+      source_type: 110
+      formula.Days Stale: 110
+      formula.Notes Extracted: 80
+  - type: table
+    name: 📖 Reading Now
+    filters:
+      and:
+        - read_status == "reading"
+    order:
+      - file.name
+      - source_type
+      - source_author
+      - formula.Days Since Started
+      - formula.Days Stale
+      - formula.Notes Extracted
+      - key_insights_count
+    sort:
+      - property: file.mtime
+        direction: DESC
+    columnSize:
+      file.name: 280
+      source_author: 150
+      formula.Notes Extracted: 80
+  - type: table
+    name: 📚 To Read
+    filters:
+      and:
+        - read_status == "to-read"
+    order:
+      - file.name
+      - source_type
+      - source_author
+      - source_date
+      - formula.Days Since Started
+    sort:
+      - property: file.ctime
+        direction: DESC
+    columnSize:
+      file.name: 280
+      source_author: 150
+      source_date: 110
+  - type: table
+    name: ✅ Completed
+    filters:
+      and:
+        - read_status == "completed"
+    order:
+      - file.name
+      - source_type
+      - source_author
+      - rating_type
+      - formula.Notes Extracted
+      - key_insights_count
+    sort:
+      - property: file.mtime
+        direction: DESC
+    columnSize:
+      file.name: 280
+      source_author: 150
+      rating_type: 90
+      formula.Notes Extracted: 80
+  - type: table
+    name: 🗂️ Reference Library
+    filters:
+      and:
+        - read_status == "reference"
+    order:
+      - file.name
+      - source_type
+      - source_author
+      - rating_type
+      - key_insights_count
+      - formula.Notes Extracted
+    sort:
+      - property: source_type
+        direction: ASC
+    columnSize:
+      file.name: 280
+      source_author: 150
+      rating_type: 90

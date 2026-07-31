@@ -1,0 +1,59 @@
+filters:
+  and:
+    - file.folder.contains("+Inbox")
+
+formulas:
+  Days in Inbox: '(today() - file.ctime).days.round() + " days"'
+
+properties:
+  file.name:
+    displayName: "📥 Note"
+  type:
+    displayName: "🏷️ Type"
+  status:
+    displayName: "⚡ Status"
+  tags:
+    displayName: "🔖 Tags"
+  related:
+    displayName: "🔗 Related"
+  file.ctime:
+    displayName: "🕐 Captured"
+  file.mtime:
+    displayName: "✏️ Modified"
+  formula.Days in Inbox:
+    displayName: "⏳ Age"
+
+views:
+  - type: table
+    name: "📥 All Inbox"
+    order:
+      - file.name
+      - type
+      - status
+      - tags
+      - formula.Days in Inbox
+      - file.ctime
+    sort:
+      - property: file.ctime
+        direction: ASC
+    columnSize:
+      file.name: 280
+      type: 100
+      status: 110
+      tags: 150
+      formula.Days in Inbox: 90
+
+  - type: table
+    name: "🔥 Oldest First"
+    order:
+      - file.name
+      - formula.Days in Inbox
+      - file.ctime
+      - type
+      - status
+    sort:
+      - property: file.ctime
+        direction: ASC
+    columnSize:
+      file.name: 300
+      formula.Days in Inbox: 90

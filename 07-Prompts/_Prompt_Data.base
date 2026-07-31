@@ -1,0 +1,71 @@
+filters:
+  and:
+    - file.folder.startsWith("07-Prompts")
+    - '!file.name.startswith("+")'
+    - '!file.name.startswith("_")'
+    - '!file.name.startswith("07")'
+views:
+  - type: table
+    name: 📥 Draft
+    filters:
+      and:
+        - status == "📥inbox"
+    order:
+      - file.name
+      - prompt_category
+      - prompt_type
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+  - type: table
+    name: ✅ Active
+    filters:
+      and:
+        - status == "🔄active"
+    order:
+      - file.name
+      - prompt_category
+      - prompt_type
+      - file.mtime
+    sort:
+      - property: prompt_category
+        direction: ASC
+  - type: table
+    name: 🏆 Winners
+    filters:
+      and:
+        - status == "✅completed"
+    order:
+      - file.name
+      - prompt_category
+      - prompt_type
+      - eval_score
+      - last_run
+    sort:
+      - property: eval_score
+        direction: DESC
+  - type: table
+    name: 📦 Archived
+    filters:
+      and:
+        - status == "📦archived"
+    order:
+      - file.name
+      - prompt_category
+      - prompt_type
+      - file.mtime
+    sort:
+      - property: file.name
+        direction: ASC
+  - type: table
+    name: 📚 All
+    order:
+      - file.name
+      - prompt_category
+      - prompt_type
+      - status
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC

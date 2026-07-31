@@ -1,0 +1,40 @@
+filters:
+  and:
+    - file.inFolder("05-Calendar")
+views:
+  - type: table
+    name: Calendar overview
+    order:
+      - file.name
+      - file.tags
+      - status
+      - sleep
+      - energy
+      - file.mtime
+    limit: 10
+  - type: table
+    name: Calendar Recently Edited
+    order:
+      - file.name
+      - file.tags
+      - status
+      - sleep
+      - energy
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+  - type: table
+    name: Periodic Reviews
+    filters:
+      and:
+        - '!file.folder.contains("Daily")'
+    order:
+      - file.name
+      - file.tags
+      - type
+      - status
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC

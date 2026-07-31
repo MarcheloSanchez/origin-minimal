@@ -1,0 +1,123 @@
+filters:
+  and:
+    - '!file.folder.contains("99-System")'
+    - '!file.folder.contains("Templates")'
+    - '!file.name.startsWith("+")'
+    - '!file.name.startsWith("_")'
+properties:
+  file.name:
+    displayName: 📄 Note
+  type:
+    displayName: 🏷️ Type
+  status:
+    displayName: ⚡ Status
+  file.folder:
+    displayName: 📂 Folder
+  file.ctime:
+    displayName: 🕐 Created
+  file.mtime:
+    displayName: ✏️ Modified
+  participants:
+    displayName: 👥 Participants
+  location:
+    displayName: 📍 Location
+views:
+  - type: table
+    name: 📝 Created This Day
+    filters:
+      and:
+        - file.ctime >= date(this.file.basename)
+        - file.ctime < date(this.file.basename) + "1 day"
+    order:
+      - file.name
+      - type
+      - status
+      - file.folder
+      - file.ctime
+    sort:
+      - property: file.ctime
+        direction: ASC
+    columnSize:
+      file.name: 280
+      type: 100
+      status: 110
+      file.folder: 200
+  - type: table
+    name: ✏️ Modified This Day
+    filters:
+      and:
+        - file.mtime >= date(this.file.basename)
+        - file.mtime < date(this.file.basename) + "1 day"
+    order:
+      - file.name
+      - type
+      - status
+      - file.folder
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+    columnSize:
+      file.name: 280
+      type: 100
+      status: 110
+      file.folder: 200
+  - type: table
+    name: 👤 People Mentioned
+    filters:
+      and:
+        - file.backlinks.contains(link(this.file.basename))
+        - type == "person"
+    order:
+      - file.name
+      - status
+      - file.folder
+    columnSize:
+      file.name: 280
+  - type: table
+    name: 🚀 Efforts Mentioned
+    filters:
+      and:
+        - file.backlinks.contains(link(this.file.basename))
+        - type == "effort"
+    order:
+      - file.name
+      - status
+      - file.folder
+    sort:
+      - property: status
+        direction: ASC
+    columnSize:
+      file.name: 280
+      status: 110
+  - type: table
+    name: 📚 Sources Mentioned
+    filters:
+      and:
+        - file.backlinks.contains(link(this.file.basename))
+        - type == "source"
+    order:
+      - file.name
+      - status
+      - file.folder
+    columnSize:
+      file.name: 280
+      status: 110
+  - type: table
+    name: 📅 Meetings This Day
+    filters:
+      and:
+        - type == "meeting"
+        - file.ctime >= date(this.file.basename)
+        - file.ctime < date(this.file.basename) + "1 day"
+    order:
+      - file.name
+      - file.ctime
+      - participants
+      - location
+    sort:
+      - property: file.ctime
+        direction: ASC
+    columnSize:
+      file.name: 280
+      participants: 200

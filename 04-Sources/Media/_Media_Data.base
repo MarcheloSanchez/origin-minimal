@@ -1,0 +1,85 @@
+filters:
+  and:
+    - file.folder.contains("420-Media")
+    - '!file.name.startswith("+")'
+    - '!file.name.startswith("420")'
+    - '!file.name.contains("Template")'
+properties:
+  file.name:
+    displayName: "🎬 Title"
+  source_type:
+    displayName: "🏷️ Type"
+  platform:
+    displayName: "📺 Platform"
+  source_author:
+    displayName: "✍️ Creator"
+  rating:
+    displayName: "⭐ Rating"
+  duration:
+    displayName: "⏱️ Duration"
+  consumption_date:
+    displayName: "📅 Watched"
+  status:
+    displayName: "⚡ Status"
+views:
+  - type: table
+    name: "📋 All Media"
+    order:
+      - file.name
+      - source_type
+      - platform
+      - source_author
+      - rating
+      - duration
+      - consumption_date
+      - status
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 280
+      source_type: 100
+      platform: 110
+      source_author: 160
+      rating: 80
+      duration: 90
+  - type: cards
+    name: "🃏 Media Cards"
+    order:
+      - file.name
+      - source_type
+      - platform
+      - rating
+      - source_author
+    limit: 100
+  - type: table
+    name: "⭐ Top Rated"
+    order:
+      - file.name
+      - source_type
+      - source_author
+      - rating
+      - platform
+      - consumption_date
+    sort:
+      - property: rating
+        direction: DESC
+    columnSize:
+      file.name: 300
+      source_author: 160
+      rating: 80
+  - type: table
+    name: "🕐 Recently Watched"
+    order:
+      - file.name
+      - source_type
+      - platform
+      - rating
+      - duration
+      - consumption_date
+    sort:
+      - property: consumption_date
+        direction: DESC
+    columnSize:
+      file.name: 300
+      consumption_date: 120

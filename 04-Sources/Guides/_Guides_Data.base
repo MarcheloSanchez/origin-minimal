@@ -1,0 +1,84 @@
+filters:
+  and:
+    - file.folder.contains("Guides")
+    - '!file.name.startsWith("+")'
+formulas:
+  Days Stale: (today() - file.mtime).days.round()
+properties:
+  file.name:
+    displayName: 📘 Guide
+  source_type:
+    displayName: 🏷️ Type
+  difficulty:
+    displayName: 📊 Difficulty
+  status:
+    displayName: ⚡ Status
+  estimated_time:
+    displayName: ⏱️ Est. Time
+  tags:
+    displayName: 🔖 Tags
+  formula.Days Stale:
+    displayName: 📅 Days Stale
+views:
+  - type: table
+    name: 📋 All Guides
+    order:
+      - file.name
+      - source_type
+      - difficulty
+      - status
+      - estimated_time
+      - formula.Days Stale
+      - tags
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 280
+      source_type: 100
+      difficulty: 100
+      estimated_time: 100
+      formula.Days Stale: 100
+  - type: cards
+    name: 🃏 Guides Cards
+    order:
+      - file.name
+      - source_type
+      - difficulty
+      - estimated_time
+      - status
+    limit: 100
+  - type: table
+    name: ⚠️ Needs Review
+    filters:
+      and:
+        - (today() - file.mtime).days > 30
+    order:
+      - file.name
+      - status
+      - difficulty
+      - estimated_time
+      - formula.Days Stale
+      - tags
+    sort:
+      - property: formula.Days Stale
+        direction: DESC
+      - property: status
+        direction: ASC
+    columnSize:
+      file.name: 300
+      formula.Days Stale: 110
+  - type: table
+    name: ⚡ Quick References
+    order:
+      - file.name
+      - source_type
+      - difficulty
+      - estimated_time
+      - tags
+    sort:
+      - property: estimated_time
+        direction: ASC
+    columnSize:
+      file.name: 300
+      estimated_time: 100

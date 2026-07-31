@@ -1,0 +1,51 @@
+filters:
+  and:
+    - file.folder.contains("100-Atomics/Things")
+    - '!file.name.startswith("+")'
+    - '!file.name.contains("Template")'
+    - file.name != "Things"
+formulas:
+  Outlinks: file.links.length
+  Backlinks: file.backlinks.length
+  Days Stable: (today() - file.mtime).days.round()
+properties:
+  file.name:
+    displayName: "📦 Thing"
+  maturity:
+    displayName: "🌱 Maturity"
+  tags:
+    displayName: "🔖 Tags"
+  related:
+    displayName: "🔗 Related"
+  formula.Outlinks:
+    displayName: "➡️ Out"
+  formula.Backlinks:
+    displayName: "⬅️ Back"
+  formula.Days Stable:
+    displayName: "📅 Days Stable"
+views:
+  - type: table
+    name: "📋 All Things"
+    order:
+      - file.name
+      - maturity
+      - formula.Outlinks
+      - formula.Backlinks
+      - tags
+      - related
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 300
+      maturity: 120
+      formula.Outlinks: 70
+      formula.Backlinks: 70
+  - type: cards
+    name: "🃏 Thing Cards"
+    order:
+      - file.name
+      - maturity
+      - tags
+      - related
+    limit: 100

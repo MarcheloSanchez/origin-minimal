@@ -1,0 +1,110 @@
+filters:
+  and:
+    - file.folder.contains("02-Knowledge/People")
+    - '!file.name.startswith("+")'
+    - '!file.name.startswith("_")'
+    - '!file.name.contains("Template")'
+formulas:
+  Meetings: |-
+    file.backlinks
+      .filter(value.asFile().properties.type == "meeting")
+      .length
+  Last Contact: |-
+    file.backlinks
+      .filter(value.asFile().properties.type == "meeting")
+      .map(value.asFile().properties.meeting_date)
+      .filter(value)
+      .reduce(if(value > acc, value, acc), "")
+  Since Contact: |-
+    (today() - file.backlinks
+      .filter(value.asFile().properties.type == "meeting")
+      .map(value.asFile().properties.meeting_date)
+      .filter(value)
+      .reduce(if(value > acc, value, acc), "")).days.round()
+properties:
+  file.name:
+    displayName: "👤 Name"
+  org:
+    displayName: "🏢 Organization"
+  role:
+    displayName: "💼 Role"
+  relationship:
+    displayName: "🤝 Relationship"
+  context:
+    displayName: "🌐 Context"
+  status:
+    displayName: "⚡ Status"
+  formula.Meetings:
+    displayName: "📅 Meetings"
+  formula.Last Contact:
+    displayName: "📞 Last Contact"
+  formula.Since Contact:
+    displayName: "⏳ Days Since"
+views:
+  - type: table
+    name: "📋 All People"
+    order:
+      - file.name
+      - org
+      - role
+      - relationship
+      - context
+      - formula.Meetings
+      - formula.Last Contact
+      - formula.Since Contact
+      - status
+    sort:
+      - property: formula.Since Contact
+        direction: ASC
+    columnSize:
+      file.name: 220
+      org: 180
+      role: 160
+      relationship: 110
+      formula.Meetings: 85
+      formula.Since Contact: 100
+  - type: cards
+    name: "🃏 People Cards"
+    order:
+      - file.name
+      - org
+      - role
+      - relationship
+      - context
+    limit: 100
+  - type: table
+    name: "✅ Active Contacts"
+    filters:
+      and:
+        - status == "🔄active"
+    order:
+      - file.name
+      - org
+      - role
+      - relationship
+      - formula.Meetings
+      - formula.Last Contact
+      - formula.Since Contact
+    columnSize:
+      file.name: 220
+      org: 180
+      role: 160
+      formula.Since Contact: 100
+  - type: table
+    name: "👻 Lost Touch"
+    filters:
+      and:
+        - status == "🔄active"
+    order:
+      - file.name
+      - org
+      - role
+      - formula.Since Contact
+      - formula.Last Contact
+    sort:
+      - property: formula.Since Contact
+        direction: DESC
+    columnSize:
+      file.name: 240
+      org: 180
+      formula.Since Contact: 120

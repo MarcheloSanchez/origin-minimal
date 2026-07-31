@@ -1,0 +1,102 @@
+filters:
+  and:
+    - file.folder.contains("04-Sources/Books")
+    - '!file.name.startswith("+")'
+    - '!file.name.contains("Template")'
+    - file.name != "Books"
+properties:
+  file.name:
+    displayName: "📖 Book"
+  source_author:
+    displayName: "✍️ Author"
+  read_status:
+    displayName: "📚 Read Status"
+  rating:
+    displayName: "⭐ Rating"
+  pages:
+    displayName: "📄 Pages"
+  publisher:
+    displayName: "🏢 Publisher"
+  isbn:
+    displayName: "🔢 ISBN"
+  tags:
+    displayName: "🔖 Tags"
+  file.mtime:
+    displayName: "🕐 Modified"
+views:
+  - type: table
+    name: "📋 All Books"
+    order:
+      - file.name
+      - source_author
+      - read_status
+      - rating
+      - pages
+      - tags
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 280
+      source_author: 180
+      read_status: 120
+      rating: 80
+      pages: 80
+  - type: cards
+    name: "🃏 Book Cards"
+    order:
+      - file.name
+      - source_author
+      - read_status
+      - rating
+    limit: 100
+  - type: table
+    name: "📥 To Read"
+    filters:
+      and:
+        - read_status == "to-read"
+    order:
+      - file.name
+      - source_author
+      - rating
+      - pages
+      - tags
+    sort:
+      - property: rating
+        direction: DESC
+    columnSize:
+      file.name: 300
+      source_author: 200
+  - type: table
+    name: "📖 Currently Reading"
+    filters:
+      and:
+        - read_status == "reading"
+    order:
+      - file.name
+      - source_author
+      - rating
+      - pages
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+    columnSize:
+      file.name: 300
+      source_author: 200
+  - type: table
+    name: "✅ Completed"
+    filters:
+      and:
+        - read_status == "completed"
+    order:
+      - file.name
+      - source_author
+      - rating
+      - pages
+    sort:
+      - property: rating
+        direction: DESC
+    columnSize:
+      file.name: 300
+      source_author: 200

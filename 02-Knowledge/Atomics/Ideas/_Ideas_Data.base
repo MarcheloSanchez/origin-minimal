@@ -1,0 +1,69 @@
+filters:
+  and:
+    - file.folder.contains("Atomics/Ideas")
+    - '!file.name.startsWith("+")'
+    - '!file.name.contains("Template")'
+    - file.name != "Ideas"
+    - file.name != "_Ideas_Data.base"
+formulas:
+  Outlinks: file.links.length
+  Backlinks: file.backlinks.length
+  Days Stable: (today() - file.mtime).days.round()
+properties:
+  file.name:
+    displayName: 💡 Idea
+  maturity:
+    displayName: 🌱 Maturity
+  confidence_level:
+    displayName: 🎯 Confidence
+  tags:
+    displayName: 🔖 Tags
+  related:
+    displayName: 🔗 Related
+  formula.Outlinks:
+    displayName: ➡️ Out
+  formula.Backlinks:
+    displayName: ⬅️ Back
+  formula.Days Stable:
+    displayName: 📅 Days Stable
+views:
+  - type: table
+    name: 📋 All Ideas
+    order:
+      - file.name
+      - maturity
+      - confidence_level
+      - formula.Outlinks
+      - formula.Backlinks
+      - tags
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 280
+      maturity: 120
+      formula.Outlinks: 70
+      formula.Backlinks: 70
+  - type: cards
+    name: 🃏 Idea Cards
+    order:
+      - file.name
+      - maturity
+      - confidence_level
+      - tags
+    limit: 100
+  - type: table
+    name: 🌱 Seeds
+    filters:
+      and:
+        - maturity == "📤seed"
+    order:
+      - file.name
+      - formula.Outlinks
+      - formula.Backlinks
+      - formula.Days Stable
+    sort:
+      - property: file.mtime
+        direction: ASC
+    columnSize:
+      file.name: 300

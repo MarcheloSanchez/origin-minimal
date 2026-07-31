@@ -1,0 +1,88 @@
+filters:
+  and:
+    - file.folder.contains("400-Places")
+    - '!file.name.startswith("+")'
+    - '!file.name.startswith("400")'
+    - '!file.name.contains("Template")'
+properties:
+  file.name:
+    displayName: 📍 Place
+  location:
+    displayName: 🌍 Location
+  place_type:
+    displayName: 🏷️ Type
+  visit_status:
+    displayName: ✈️ Visit Status
+  rating:
+    displayName: ⭐ Rating
+  last_visit:
+    displayName: 📅 Last Visit
+  status:
+    displayName: ⚡ Status
+  tags:
+    displayName: 🔖 Tags
+views:
+  - type: table
+    name: 📋 All Places
+    order:
+      - file.name
+      - location
+      - place_type
+      - visit_status
+      - rating
+      - last_visit
+      - status
+      - tags
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 240
+      location: 180
+      place_type: 110
+      visit_status: 120
+      rating: 80
+  - type: cards
+    name: 🃏 Places Cards
+    order:
+      - file.name
+      - location
+      - place_type
+      - visit_status
+      - rating
+    limit: 100
+  - type: table
+    name: ✅ Active Places
+    filters:
+      and:
+        - status == "🔄active"
+    order:
+      - file.name
+      - location
+      - place_type
+      - visit_status
+      - rating
+      - tags
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 260
+      location: 200
+  - type: table
+    name: 🗺️ Wishlist
+    filters:
+      and:
+        - visit_status == "wishlist"
+    order:
+      - file.name
+      - location
+      - place_type
+      - rating
+      - tags
+    sort:
+      - property: rating
+        direction: DESC
+    columnSize:
+      file.name: 280
+      location: 200

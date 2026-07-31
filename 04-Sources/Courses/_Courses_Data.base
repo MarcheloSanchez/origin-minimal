@@ -1,0 +1,71 @@
+filters:
+  and:
+    - file.folder.contains("04-Sources/Courses")
+    - '!file.name.startswith("+")'
+    - '!file.name.contains("Template")'
+properties:
+  file.name:
+    displayName: "🎓 Course"
+  source_author:
+    displayName: "👨‍🏫 Instructor"
+  read_status:
+    displayName: "📈 Progress"
+  rating_type:
+    displayName: "⭐ Rating"
+  source_date:
+    displayName: "📅 Year"
+  tags:
+    displayName: "🔖 Tags"
+  file.mtime:
+    displayName: "🕐 Modified"
+views:
+  - type: table
+    name: "📋 All Courses"
+    order:
+      - file.name
+      - source_author
+      - read_status
+      - rating_type
+      - source_date
+      - tags
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 280
+      source_author: 180
+      read_status: 120
+      rating_type: 80
+  - type: cards
+    name: "🃏 Course Cards"
+    order:
+      - file.name
+      - source_author
+      - read_status
+      - rating_type
+    limit: 100
+  - type: table
+    name: "✅ Read"
+    filters:
+      and:
+        - read_status == "completed"
+    order:
+      - file.name
+      - source_author
+      - rating_type
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+  - type: table
+    name: "📥 To Read"
+    filters:
+      and:
+        - read_status == "to-read"
+    order:
+      - file.name
+      - source_author
+      - rating_type
+    sort:
+      - property: rating_type
+        direction: DESC

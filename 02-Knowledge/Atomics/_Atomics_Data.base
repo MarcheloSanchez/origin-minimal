@@ -1,0 +1,176 @@
+filters:
+  and:
+    - and:
+        - file.folder.contains("02-Knowledge/Atomics")
+        - and:
+            - '!file.name.contains("base")'
+formulas:
+  stage: maturity
+  last_touch: file.mtime.date().toString()
+  Outlinks: file.links.length
+  Backlinks: file.backlinks.length
+  Days Stable: (today() - file.mtime).days.round()
+  Linked Efforts: file.backlinks.filter(value.asFile().properties.type == "effort").length
+  Promote?: |-
+    if(maturity == "📤seed",
+      if(file.links.length >= 2 && file.backlinks.length >= 1, "✅ → seedling", "❌"),
+      if(maturity == "🌱seedling",
+        if(file.links.length >= 5 && file.backlinks.length >= 2, "✅ → sapling", "❌"),
+        if(maturity == "🪴sapling",
+          if(file.links.length >= 10 && file.backlinks.length >= 5 && (today() - file.mtime).days.round() >= 30, "✅ → evergreen", "❌"),
+          if(maturity == "🌲evergreen",
+            if(file.links.length >= 15 && file.backlinks.length >= 10 && (today() - file.mtime).days.round() >= 60, "✅ → fruit", "❌"),
+            "🍓"
+          )
+        )
+      )
+    )
+properties:
+  title:
+    displayName: 💡 Atomic
+  stage:
+    displayName: 🌱 Maturity
+  tags:
+    displayName: 🔖 Tags
+  related:
+    displayName: 🔗 Related
+  file.mtime:
+    displayName: 🕐 Modified
+  formula.last_touch:
+    displayName: ✏️ Last Edited
+  confidence_level:
+    displayName: 🎯 Confidence
+  domain:
+    displayName: 🧭 Domain
+  formula.Outlinks:
+    displayName: ➡️ Out
+  formula.Backlinks:
+    displayName: ⬅️ Back
+  formula.Days Stable:
+    displayName: 📅 Days Stable
+  formula.Promote?:
+    displayName: 🚀 Promote?
+  formula.Linked Efforts:
+    displayName: 🚀 Efforts
+views:
+  - type: table
+    name: 💡 Atomics in This Note
+    filters:
+      and:
+        - file.backlinks.contains(link(this.file.name))
+        - type == "atomic"
+    order:
+      - file.name
+      - maturity
+      - formula.Outlinks
+      - formula.Backlinks
+      - formula.Days Stable
+    sort:
+      - property: maturity
+        direction: ASC
+    columnSize:
+      file.name: 280
+      maturity: 120
+      formula.Outlinks: 70
+      formula.Backlinks: 70
+      formula.Days Stable: 100
+  - type: cards
+    name: 🃏 Atomics Cards
+    limit: 100
+  - type: table
+    name: 📋 Atomics Table
+    order:
+      - file.name
+      - maturity
+      - confidence_level
+      - domain
+      - tags
+      - file.mtime
+    columnSize:
+      file.name: 280
+      maturity: 120
+      confidence_level: 110
+      domain: 120
+  - type: table
+    name: 📊 All Atomics
+    order:
+      - file.name
+      - maturity
+      - confidence_level
+      - domain
+      - tags
+      - file.mtime
+    columnSize:
+      file.name: 260
+      maturity: 120
+  - type: table
+    name: 🔬 Maturity Pipeline
+    order:
+      - file.name
+      - maturity
+      - formula.Outlinks
+      - formula.Backlinks
+      - formula.Days Stable
+      - formula.Promote?
+    sort:
+      - property: formula.Promote?
+        direction: DESC
+      - property: maturity
+        direction: ASC
+    columnSize:
+      file.name: 260
+      maturity: 120
+      formula.Outlinks: 70
+      formula.Backlinks: 70
+      formula.Days Stable: 100
+      formula.Promote?: 120
+  - type: table
+    name: ✅ Ready to Promote
+    order:
+      - file.name
+      - maturity
+      - formula.Promote?
+      - formula.Outlinks
+      - formula.Backlinks
+      - formula.Days Stable
+    sort:
+      - property: maturity
+        direction: ASC
+    columnSize:
+      file.name: 260
+      formula.Promote?: 120
+  - type: table
+    name: 🌱 Seeds to Nurture
+    filters:
+      and:
+        - maturity == "📤seed"
+    order:
+      - file.name
+      - formula.Outlinks
+      - formula.Backlinks
+      - formula.Days Stable
+      - tags
+    sort:
+      - property: file.mtime
+        direction: ASC
+    columnSize:
+      file.name: 280
+      formula.Outlinks: 70
+      formula.Backlinks: 70
+  - type: table
+    name: 🚀 Linked to Efforts
+    order:
+      - file.name
+      - maturity
+      - formula.Linked Efforts
+      - formula.Outlinks
+      - formula.Backlinks
+      - tags
+    sort:
+      - property: formula.Linked Efforts
+        direction: DESC
+    columnSize:
+      file.name: 260
+      formula.Linked Efforts: 90
+      formula.Outlinks: 70
+      formula.Backlinks: 70
