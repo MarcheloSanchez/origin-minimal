@@ -1,0 +1,4 @@
+discover
+understand
+apply
+teach

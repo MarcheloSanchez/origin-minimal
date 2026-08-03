@@ -1,0 +1,171 @@
+{
+  "generated": "2026-02-27T23:52:56+01:00",
+  "total_plugins": 32,
+  "tiers": {
+    "core": "Vault breaks without these",
+    "recommended": "Enhances workflow significantly",
+    "optional": "Nice to have, vault works without"
+  },
+  "plugins": {
+    "auto-note-mover": {
+      "version": "1.2.0",
+      "name": "Auto Note Mover",
+      "tier": "optional"
+    },
+    "buttons": {
+      "version": "0.9.13",
+      "name": "Buttons",
+      "tier": "optional"
+    },
+    "calendar": {
+      "version": "1.5.10",
+      "name": "Calendar",
+      "tier": "optional"
+    },
+    "callout-manager": {
+      "version": "1.1.0",
+      "name": "Callout Manager",
+      "tier": "recommended"
+    },
+    "cmdr": {
+      "version": "0.5.4",
+      "name": "Commander",
+      "tier": "core"
+    },
+    "darlal-switcher-plus": {
+      "version": "6.0.0",
+      "name": "Quick Switcher++",
+      "tier": "optional"
+    },
+    "dataview": {
+      "version": "0.5.68",
+      "name": "Dataview",
+      "tier": "core"
+    },
+    "folder-notes": {
+      "version": "1.8.18",
+      "name": "Folder notes",
+      "tier": "recommended"
+    },
+    "homepage": {
+      "version": "4.3.1",
+      "name": "Homepage",
+      "tier": "core"
+    },
+    "image-converter": {
+      "version": "1.4.1",
+      "name": "Image Converter",
+      "tier": "optional"
+    },
+    "lazy-plugins": {
+      "version": "1.0.21",
+      "name": "Lazy Plugin Loader",
+      "tier": "optional"
+    },
+    "metadata-menu": {
+      "version": "0.8.12",
+      "name": "Metadata Menu",
+      "tier": "recommended"
+    },
+    "nldates-obsidian": {
+      "version": "0.6.2",
+      "name": "Natural Language Dates",
+      "tier": "optional"
+    },
+    "obsidian-advanced-uri": {
+      "version": "1.46.1",
+      "name": "Advanced URI",
+      "tier": "optional"
+    },
+    "obsidian-checklist-plugin": {
+      "version": "2.2.14",
+      "name": "Checklist",
+      "tier": "optional"
+    },
+    "obsidian-excalidraw-plugin": {
+      "version": "2.20.5",
+      "name": "Excalidraw",
+      "tier": "optional"
+    },
+    "obsidian-hider": {
+      "version": "1.5.1",
+      "name": "Hider",
+      "tier": "optional"
+    },
+    "obsidian-kanban": {
+      "version": "2.0.51",
+      "name": "Kanban",
+      "tier": "recommended"
+    },
+    "obsidian-linter": {
+      "version": "1.31.0",
+      "name": "Linter",
+      "tier": "recommended"
+    },
+    "obsidian-minimal-settings": {
+      "version": "8.2.1",
+      "name": "Minimal Theme Settings",
+      "tier": "optional"
+    },
+    "obsidian-plugin-update-tracker": {
+      "version": "1.7.0",
+      "name": "Plugin Update Tracker",
+      "tier": "optional"
+    },
+    "obsidian-style-settings": {
+      "version": "1.0.9",
+      "name": "Style Settings",
+      "tier": "recommended"
+    },
+    "obsidian-tasks-plugin": {
+      "version": "7.22.0",
+      "name": "Tasks",
+      "tier": "recommended"
+    },
+    "obsidian-text-format": {
+      "version": "3.1.0",
+      "name": "Text Format",
+      "tier": "optional"
+    },
+    "periodic-notes": {
+      "version": "0.0.17",
+      "name": "Periodic Notes",
+      "tier": "core"
+    },
+    "quickadd": {
+      "version": "2.11.0",
+      "name": "QuickAdd",
+      "tier": "core"
+    },
+    "recent-files-obsidian": {
+      "version": "1.7.6",
+      "name": "Recent Files",
+      "tier": "optional"
+    },
+    "smart-connections": {
+      "version": "4.1.7",
+      "name": "Smart Connections",
+      "tier": "optional"
+    },
+    "tag-wrangler": {
+      "version": "0.6.4",
+      "name": "Tag Wrangler",
+      "tier": "recommended"
+    },
+    "templater-obsidian": {
+      "version": "2.18.1",
+      "name": "Templater",
+      "tier": "core"
+    },
+    "url-into-selection": {
+      "version": "1.11.4",
+      "name": "Paste URL into selection",
+      "tier": "optional"
+    },
+    "various-complements": {
+      "version": "11.0.0",
+      "name": "Various Complements",
+      "tier": "optional"
+    }
+  }
+}

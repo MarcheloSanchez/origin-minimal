@@ -1,0 +1,4 @@
+standup
+planning
+review
+retrospective

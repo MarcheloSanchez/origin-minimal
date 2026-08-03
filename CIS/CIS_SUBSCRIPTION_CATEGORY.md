@@ -1,0 +1,10 @@
+entertainment
+productivity
+utilities
+health
+education
+finance
+professional
+news_media
+gaming
+software

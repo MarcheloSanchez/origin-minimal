@@ -1,0 +1,11 @@
+sunny
+cloudy
+rainy
+stormy
+snowy
+foggy
+windy
+humid
+hot
+cold
+mixed

@@ -1,0 +1,3 @@
+weekly
+monthly
+quarterly

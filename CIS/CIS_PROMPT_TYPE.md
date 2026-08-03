@@ -1,0 +1,14 @@
+explanation
+reflection
+simulation
+summarization
+rewrite
+generation
+analysis
+planning
+idea
+prompt-design
+comparison
+compression
+creative
+utility

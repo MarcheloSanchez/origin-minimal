@@ -1,0 +1,4 @@
+quickadd
+mobile
+web
+manual

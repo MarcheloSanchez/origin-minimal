@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "comment": "Folders Claude Code cannot READ while locked. Add globs to extend. Edited by the vault owner; no code change needed. Guard: .claude/hooks/privacy-guard.js",
+  "protected": [
+    "05-Calendar/Daily/**",
+    "05-Calendar/Sessions/**",
+    "05-Calendar/Weekly/**",
+    "05-Calendar/Monthly/**",
+    "05-Calendar/Quarterly/**",
+    "05-Calendar/Yearly/**",
+    "05-Calendar/_Logs/**",
+    "06-Archive/Completed/**",
+    "06-Archive/Dormant/**",
+    "06-Archive/Reference/**"
+  ]
+}

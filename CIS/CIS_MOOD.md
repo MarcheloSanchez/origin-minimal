@@ -1,0 +1,17 @@
+excellent
+good
+okay
+neutral
+stressed
+tired
+sad
+anxious
+energized
+motivated
+creative
+productive
+happy
+excited
+bored
+frustrated
+angry

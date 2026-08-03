@@ -1,0 +1,3 @@
+draft
+partial
+comprehensive
