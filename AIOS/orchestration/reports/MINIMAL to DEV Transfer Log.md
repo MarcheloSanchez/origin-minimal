@@ -23,18 +23,22 @@ Two kinds of rows:
 - **Finding** — something observed in MINIMAL that is (or is not) also true in DEV. No file changed.
 - **Change** — an edit actually made in MINIMAL. Lists the touched paths.
 
-`Scope` values: `MINIMAL-only` (an artifact of the stripping) · `Shared` (the same defect
-almost certainly exists in DEV) · `Unverified` (needs a DEV check before deciding).
+**Baseline**: commits `01d9272`..`15bd2c8` are a verbatim export of DEV, so the initial state
+*is* the diff — anything in those commits is DEV state, and everything after them is a MINIMAL
+delta that must be decided here.
+
+`Scope` values: `Export artifact` (caused by what the export left out, so not a DEV defect) ·
+`Inherited` (present verbatim in the export, therefore also in DEV).
 
 ## Summary table
 
 | # | Kind | Subject | Scope | Transfer to DEV? |
 |---|---|---|---|---|
-| 1 | Finding | Docs describe folders that MINIMAL does not contain (`99-System/`, `Templates/`, `+Inbox/`, `.obsidian/`) | MINIMAL-only | **No** — fix in MINIMAL only |
-| 2 | Finding | `hot-cache.test.js` writes `AIOS/context/hot.md`, hook reads `AIOS/memory/hot.md` | Shared | **Yes** — real stale test |
-| 3 | Finding | `privacy-core.test.js` "fallback list matches shipped JSON" fails: no `99-System/Config/privacy-protected-paths.json` | MINIMAL-only (symptom), Shared (design) | **Partly** — see detail |
-| 4 | Finding | No `.gitignore`; `AIOS/scripts/__pycache__/*.pyc` is committed | Unverified | **Yes** if DEV also tracks it |
-| 5 | Finding | No CI and no documented test command, although 25 pytest + 29 node tests exist | Shared | **Yes** — decide where CI belongs |
+| 1 | Finding | Docs describe folders the export omits (`99-System/`, `Templates/`, `+Inbox/`, `.obsidian/`) | Export artifact | **No** — fix in MINIMAL only |
+| 2 | Finding | `hot-cache.test.js` writes `AIOS/context/hot.md`, hook reads `AIOS/memory/hot.md` | Inherited | **Yes** — real stale test, live in DEV |
+| 3 | Finding | `privacy-core.test.js` "fallback list matches shipped JSON" fails: no `99-System/Config/privacy-protected-paths.json` | Export artifact (failure), Inherited (design) | **Partly** — see detail |
+| 4 | Finding | No `.gitignore`; `AIOS/scripts/__pycache__/*.pyc` is committed | Export artifact (no `.gitignore`), Inherited (tracked `.pyc`) | **Yes** for the `.pyc` |
+| 5 | Finding | No CI and no documented test command, although 25 pytest + 29 node tests exist | Inherited | **Yes** — decide where CI belongs |
 
 ## 1 — Docs reference folders MINIMAL does not have
 
@@ -50,7 +54,7 @@ describe layers that are absent here.
 Recommended fix (MINIMAL): reconcile the three root docs to the actual layout, and state
 explicitly at the top of `README.md` which Origin layers MINIMAL intentionally omits.
 
-**Transfer: No.** DEV has those folders; this is stripping drift, not an Origin defect.
+**Transfer: No.** DEV has those folders; this is export drift, not an Origin defect.
 The one thing worth carrying back is the *idea* of a "what MINIMAL omits" section, so the
 derivation is documented on both ends.
 
@@ -67,8 +71,8 @@ propagated to docs and hook but not to the test.
 
 Recommended fix: change the fixture path to `AIOS/memory/hot.md`.
 
-**Transfer: Yes.** A `context/` → `memory/` rename that missed the test layer is almost
-certainly present in DEV too, and it is silently weakening three tests there.
+**Transfer: Yes.** Both files came over verbatim in the export, so the `context/` → `memory/`
+rename missed the test layer in DEV as well, where it is silently weakening three tests.
 
 ## 3 — `privacy-core` config-parity test has no config to read
 
@@ -90,14 +94,15 @@ guard's test coverage without warning.
 ## 4 — No `.gitignore`, compiled Python committed
 
 MINIMAL has no `.gitignore` at all, and `AIOS/scripts/__pycache__/vault_resolver.cpython-314.pyc`
-is tracked (1 of 384 tracked files). Origin's `.gitignore` was presumably left behind during
-stripping along with `99-System/`.
+is tracked (1 of 384 tracked files). The missing `.gitignore` is an export artifact — but the
+`.pyc` arrived *inside* the export, which means DEV tracks it too (a `.gitignore` rule alone
+never untracks an already-committed file).
 
 Recommended fix: add a `.gitignore` covering `__pycache__/`, `*.pyc`, `.pytest_cache/`,
 `node_modules/`, `.env`; `git rm --cached` the tracked `.pyc`.
 
-**Transfer: Yes, if DEV also tracks a `.pyc`** — worth a one-line check there. Otherwise
-MINIMAL-only.
+**Transfer: Yes** — `git rm --cached` the `.pyc` in DEV and confirm DEV's `.gitignore` covers
+`__pycache__/`. The `.gitignore` file itself does not transfer (DEV has one).
 
 ## 5 — Tests exist, nothing runs them
 
@@ -113,7 +118,7 @@ either, so the Python suite's dependency is implicit.
 Recommended fix: document both commands in `CLAUDE.md`, and add a CI workflow running them
 on push/PR.
 
-**Transfer: Yes.** This is an Origin-level gap, not a stripping artifact. Open question for
+**Transfer: Yes.** Inherited from the export, so it is an Origin-level gap. Open question for
 the owner: whether CI belongs on the DEV repo (which also carries private notes) or only on
 the template-source surface — that choice decides where the workflow file lands.
 
@@ -122,6 +127,7 @@ the template-source surface — that choice decides where the workflow file land
 | Date | Change | Paths | Transfer? |
 |---|---|---|---|
 | 2026-08-03 | Added this transfer log | `AIOS/orchestration/reports/MINIMAL to DEV Transfer Log.md` | No — MINIMAL-specific bookkeeping |
+| 2026-08-03 | Re-scoped findings against the export baseline (`01d9272`..`15bd2c8` = DEV verbatim) | same file | No |
 
 ---
 ⬆️ [[🏡Home]]  *| `= this.file.mtime`*
